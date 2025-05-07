@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận diện khuôn mặt</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button {
+            padding: 15px 25px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+            margin: 10px;
+        }
+        .button:hover {background-color: #3e8e41}
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+        .alert {
+            padding: 20px;
+            background-color: #f44336; /* Red */
+            color: white;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Nhận diện khuôn mặt</h1>
+        <img src="/video_feed/{{ class_id }}" width="80%" alt="Video feed">
+        <div id="alerts"></div> <!-- Khu vực hiển thị cảnh báo -->
+        <div id="detection-info" style="display:none;">
+            <button id="confirm-attendance" class="button">Xác nhận điểm danh</button>
+        </div>
+        <button class="button" onclick="location.href='/home'">Quay lại trang chủ</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var socket = io();
+
+        socket.emit('start_recognition', { class_id: '{{ class_id }}' });
+
+        socket.on('update_status', function(data) {
+            var statusDiv = document.getElementById('status');
+            if (!statusDiv) {
+                statusDiv = document.createElement('div');
+                statusDiv.id = 'status';
+                document.body.appendChild(statusDiv);
+            }
+            statusDiv.innerText = 'Sinh viên ' + data.mssv + ' đã điểm danh';
+        });
+
+        socket.on('unknown_person_detected', function(data) {
+            var alertsDiv = document.getElementById('alerts');
+            var alert = document.createElement('div');
+            alert.className = 'alert';
+            alert.innerText = data.message;
+            alertsDiv.appendChild(alert);
+        });
+
+        socket.on('face_detected', function(data) {
+            $('#detection-info').show();
+            $('#confirm-attendance').data('mssv', data.mssv);
+            $('#confirm-attendance').data('class_id', data.class_id);
+        });
+
+        $('#confirm-attendance').click(function() {
+            const mssv = $(this).data('mssv');
+            const class_id = $(this).data('class_id');
+
+            $.ajax({
+                url: '/confirm_attendance',
+type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ mssv: mssv, class_id: class_id }),
+                success: function(response) {
+                    if (response.status === 'success') {
+                        alert('Điểm danh thành công');
+                        $('#detection-info').hide();
+                    } else {
+                        alert('Lỗi: ' + response.message);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

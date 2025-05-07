@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            font-size: 24px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+            margin: 20px;
+        }
+        .btn:hover {background-color: #3e8e41}
+        .btn:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+        .btn-logout {
+            background-color: #f44336;
+        }
+        .btn-logout:hover {background-color: #e53935}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome,{{ content }}</h1>
+        <button class="btn" onclick="location.href='/userinfo'">Xem thông tin người đăng nhập</button>
+        <button class="btn" onclick="location.href='/attendance'">Điểm danh</button>
+        <button class="btn btn-history" onclick="location.href='/attendancedStudentUser'">Lịch sử điểm danh</button>
+        <button class="btn btn-logout" onclick="location.href='/'">Đăng xuất</button>
+    </div>
+</body>
+</html>

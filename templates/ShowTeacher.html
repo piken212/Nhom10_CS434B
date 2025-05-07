@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Class List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+        h2 {
+            margin-top: 30px;
+        }
+        table {
+            margin-bottom: 20px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Danh sách giáo viên</h1>
+        {% for teacher, classes in data.items() %}
+            <div class="teacher-section">
+                <h2 class="text-primary">Họ và tên : {{ teacher }}</h2>
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Mã lớp học</th>
+                            <th scope="col">Tên lớp học</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for class in classes %}
+                            <tr>
+                                <td>{{ class.IDCLASS }}</td>
+                                <td>{{ class.ClassName }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+        <div class="button-group" >
+            <button class = "btn-btn-primary" onclick = "/ShowTeacher" > Reset
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

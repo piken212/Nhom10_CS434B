@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            width: 70%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .login-container button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .login-container a {
+                padding: 10px 20px;
+                margin: 30px;
+            }
+    </style>
+</head>
+
+
+<body style="background-image: url('https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'); background-size: cover;">
+   
+<form action = "/login" method="post">
+    <div class="login-container">
+        <h2>Đăng nhập tài khoản</h2>
+        <form>
+            <label for = "taikhoan" > Tài khoản : </label> 
+            <input type="text" placeholder="Username" id = "taikhoan" name = "taikhoan" required>
+            
+            <br>
+            <label for = "matkhau" > Mật khẩu : </label>
+            <input type="password" placeholder="Password" id = "matkhau" name = "matkhau" required>
+            
+            <br>
+            <button type="submit">Đăng nhập</button>
+            
+        </form>
+    </div>
+    
+</body>
+</html>
+

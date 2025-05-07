@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch sử điểm danh</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .button {
+            padding: 15px 25px;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+            margin: 10px;
+        }
+        .button:hover {background-color: #3e8e41}
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+    <script>
+        function showClasses() {
+            var select = document.getElementById('classes');
+            var defaultOption = document.getElementById('defaultOption');
+            select.removeChild(defaultOption);
+        }
+        function submitForm() {
+            document.getElementById('classForm').submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Lịch sử điểm danh</h1>
+        <p>Tài khoản: {{ username }}</p>
+        <form id="classForm" action="/history" method="post">
+            <label for="classes">Chọn lớp học phần:</label>
+            <select id="classes" name="classes" onclick="showClasses()" onchange="submitForm()">
+                <option value="" disabled selected>Chọn lớp học phần</option>
+                {% for class in classes %}
+                    <option value="{{ class['IDClass'] }}">{{ class['IDClass'] }} - {{ class['ClassName'] }} - {{ class['Date'] }}</option>
+                {% endfor %}
+            </select>
+        </form>
+
+        {% if selected_class %}
+            <h2>Thông tin lớp học: {{ class_info['IDClass'] }} - {{ class_info['ClassName'] }}</h2>
+            {% if no_students %}
+                <p style="color: red; font-weight: bold;">Danh sách trống</p>
+            {% else %}
+                {% if enrollment_info %}
+                <h2>Thông tin điểm danh</h2>
+                <table>
+                    <tr>
+                        <th>MSSV</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                    {% for info in enrollment_info %}
+                    <tr>
+                        <td>{{ info['MSSV'] }}</td>
+                        <td>{{ info['date'] }}</td>
+                        <td>{{ info['status'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        <button class="button" onclick="location.href='/home'">Quay lại trang chủ</button>
+    </div>
+</body>
+</html>

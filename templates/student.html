@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách Sinh Viên</title>
+    <style>
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border: 2px solid #000000;
+            text-align: center;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #000000;
+            background-color: pink;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Danh sách sinh viên</h1>
+    <table>
+        <tr>
+            <th>STT</th>
+            <th>Họ và tên</th>
+            <th>MSSV</th>
+            <th>Lớp học</th>
+        </tr>
+        {% for idx, student in enumerate(student, start=1) %}
+        <tr>
+            <td>{{ idx }}</td>
+            <td>{{ student["Name"] }}</td>
+            <td>{{ student["MSSV"] }}</td>
+            <td>{{ student["Class"] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
