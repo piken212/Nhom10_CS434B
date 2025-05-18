@@ -98,5 +98,98 @@ type: 'POST',
             });
         });
     </script>
+
+    <!-- Conghieeu - Conde này không ảnh hưởng -->
+    <div id="unused-features" style="display: none;">
+        <h3>Tính năng nâng cao (chưa kích hoạt)</h3>
+        <div class="feature-container">
+            <div class="feature-card">
+                <h4>Điều chỉnh độ nhạy</h4>
+                <div class="slider-container">
+                    <label for="sensitivity">Độ nhạy nhận diện:</label>
+                    <input type="range" id="sensitivity" min="0" max="100" value="50">
+                    <span id="sensitivity-value">50%</span>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <h4>Chế độ nhận diện</h4>
+                <select id="detection-mode">
+                    <option value="normal">Bình thường</option>
+                    <option value="high-accuracy">Độ chính xác cao</option>
+                    <option value="fast">Tốc độ nhanh</option>
+                </select>
+            </div>
+            
+            <div class="feature-card">
+                <h4>Xuất báo cáo</h4>
+                <button id="export-pdf" class="btn-export">Xuất PDF</button>
+                <button id="export-excel" class="btn-export">Xuất Excel</button>
+            </div>
+        </div>
+    </div>
+
+    <style id="unused-styles">
+        .feature-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            padding: 15px;
+            width: 30%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .slider-container {
+            margin-top: 10px;
+        }
+        
+        .btn-export {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .btn-export:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+
+    <script id="unused-scripts">
+        // Các hàm JavaScript không được gọi
+        function updateSensitivityValue() {
+            const slider = document.getElementById('sensitivity');
+            const value = document.getElementById('sensitivity-value');
+            if (slider && value) {
+                value.textContent = slider.value + '%';
+            }
+        }
+        
+        function changeDetectionMode() {
+            const mode = document.getElementById('detection-mode').value;
+            console.log('Chế độ nhận diện đã thay đổi thành:', mode);
+            // Không làm gì cả
+        }
+        
+        function exportReport(format) {
+            console.log('Xuất báo cáo định dạng:', format);
+            // Không làm gì cả
+        }
+        
+        // Các event listener không được kích hoạt vì phần tử cha bị ẩn
+        document.getElementById('sensitivity')?.addEventListener('input', updateSensitivityValue);
+        document.getElementById('detection-mode')?.addEventListener('change', changeDetectionMode);
+        document.getElementById('export-pdf')?.addEventListener('click', () => exportReport('pdf'));
+        document.getElementById('export-excel')?.addEventListener('click', () => exportReport('excel'));
+    </script>
+    <!-- End of Conghieeu's code -->
 </body>
 </html>

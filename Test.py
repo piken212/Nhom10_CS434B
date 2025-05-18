@@ -61,3 +61,40 @@ def send_predictions(predictions):
     headers = {'Content-Type': 'text/plain'}
     response = requests.post(esp32_prediction_url, data=data, headers=headers)
     print("Sent predictions:", response.status_code, response.text)
+
+# CongHieu
+def enhance_face_detection(frame, brightness=1.0, contrast=1.0):
+    """
+    Cải thiện chất lượng ảnh trước khi nhận diện (không được gọi trong hệ thống)
+    """
+    enhanced = frame.copy()
+    enhanced = cv2.convertScaleAbs(enhanced, alpha=contrast, beta=brightness*50)
+    return enhanced
+
+def apply_face_blur(frame, results, blur_factor=25):
+    """
+    Làm mờ khuôn mặt được nhận diện (không được gọi trong hệ thống)
+    """
+    blurred = frame.copy()
+    for result in results[0].boxes:
+        x1, y1, x2, y2 = map(int, result.xyxy[0])
+        face_region = blurred[y1:y2, x1:x2]
+        blurred_face = cv2.GaussianBlur(face_region, (blur_factor, blur_factor), 0)
+        blurred[y1:y2, x1:x2] = blurred_face
+    return blurred
+
+def save_detected_faces(frame, results, output_dir="detected_faces"):
+    """
+    Lưu các khuôn mặt được nhận diện vào thư mục (không được gọi trong hệ thống)
+    """
+    import os
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        
+    for i, result in enumerate(results[0].boxes):
+        x1, y1, x2, y2 = map(int, result.xyxy[0])
+        face = frame[y1:y2, x1:x2]
+        label = model.names[int(result.cls[0])]
+        # filename = f"{output_dir}/{label}_{i}_{int(time.time())}.jpg"
+    # print("Sent predictions:", response.status_code, response.text)
+# End of CongHieeu

@@ -741,3 +741,80 @@ def show_teacher():
         return "Error fetching data"
 if __name__ == "__main__":
     app.run(debug=True)
+
+# Conghieeu
+def analyze_attendance_statistics(class_id):
+    """
+    Phân tích thống kê điểm danh của một lớp
+    """
+    connection = create_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("""
+            SELECT s.MSSV, s.Name, COUNT(st.Status) as present_count
+            FROM student s
+            JOIN enrollment e ON s.MSSV = e.MSSV
+            LEFT JOIN status st ON e.IDenroll = st.IDEnroll AND st.Status = 'Present'
+            WHERE e.IDClass = %s
+            GROUP BY s.MSSV, s.Name
+        """, (class_id,))
+        stats = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        return stats
+    return None
+
+def generate_attendance_report(class_id, format="pdf"):
+    """
+    Tạo báo cáo điểm danh
+    """
+    stats = analyze_attendance_statistics(class_id)
+    if not stats:
+        return None
+    
+    if format == "pdf":
+        # Giả lập tạo PDF
+        report_data = f"Attendance Report for Class {class_id}\n"
+        for student in stats:
+            report_data += f"MSSV: {student['MSSV']}, Name: {student['Name']}, Present: {student['present_count']}\n"
+        return report_data
+    elif format == "excel":
+        # Giả lập tạo Excel
+        return stats
+    return None
+
+def face_recognition_benchmark(test_images_dir):
+    """
+    Đánh giá hiệu suất nhận diện khuôn mặt
+    """
+    import os
+    import time
+    
+    results = {
+        "total_images": 0,
+        "detected_faces": 0,
+        "avg_processing_time": 0,
+        "accuracy": 0
+    }
+    
+    if not os.path.exists(test_images_dir):
+        return results
+    
+    total_time = 0
+    for img_file in os.listdir(test_images_dir):
+        if img_file.endswith(('.jpg', '.jpeg', '.png')):
+            img_path = os.path.join(test_images_dir, img_file)
+            frame = cv2.imread(img_path)
+            
+            start_time = time.time()
+            detection_results = process_frame(frame)
+            end_time = time.time()
+            
+            total_time += (end_time - start_time)
+            results["total_images"] += 1
+            results["detected_faces"] += len(detection_results[0].boxes)
+    
+    if results["total_images"] > 0:
+        results["avg_processing_time"] = total_time / results["total_images"]
+        
+    return results
